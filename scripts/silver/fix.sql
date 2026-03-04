@@ -137,3 +137,21 @@ case
  else 'n/a'
 end as gen
 FROM bronze.erp_cust_az12
+
+-- inserting data into silver.erp_loc_a101
+--5th Table
+
+insert into silver.erp_loc_a101(
+cid,
+cntry
+)
+SELECT
+REPLACE(cid,'-','') as cid,
+case
+ when trim(cntry) = 'DE' then 'Germany'
+ when trim(cntry) in ('US','USA') then 'United States'
+ when trim(cntry) = '' or cntry is null then 'n/a'
+ else trim(cntry)
+end as cntry
+FROM bronze.erp_loc_a101;
+
