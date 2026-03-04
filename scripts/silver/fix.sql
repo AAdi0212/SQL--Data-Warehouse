@@ -1,5 +1,5 @@
 -- inserting data into silver.crm_cust_info
-
+-- 1st Table
 insert into silver.crm_cust_info(
 cst_id,
 cst_key,
@@ -36,7 +36,7 @@ where cust_rank_by_date = 1 and  cst_id is not null;
 
 
 --inserting the data in silver.crm_prd_info
-
+-- 2nd Table
 insert into silver.crm_prd_info (
     prd_id, 
     cat_id, 
@@ -68,6 +68,7 @@ from bronze.crm_prd_info;
 
 
 --inserting data into silver.crm_sales_details
+-- 3rd Table
 
 insert into silver.crm_sales_details (
     sls_ord_num,
@@ -112,3 +113,27 @@ case
     else sls_price
 end as sls_price
 from bronze.crm_sales_details
+
+
+-- inserting data into silver.erp_cust_az12
+-- 4th Table
+	
+insert into silver.erp_cust_az12(
+cid,
+bdate,
+gen)
+SELECT
+case
+ when cid like 'NAS%' then SUBSTRING(cid,4,len(cid))
+ else cid
+ end as cid_,
+case
+ when bdate > getdate() then NULL
+ else bdate
+ end as bdate,
+case
+ when UPPER(TRIM(GEN)) in ('M','MALE') then 'Male'
+ when upper(trim(GEN)) in ('F','FEMALE') then 'Female'
+ else 'n/a'
+end as gen
+FROM bronze.erp_cust_az12
