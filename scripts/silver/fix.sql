@@ -155,3 +155,15 @@ case
 end as cntry
 FROM bronze.erp_loc_a101;
 
+
+-- inserting data into silver.erp_px_cat_g1v2
+--6th Table
+
+insert into silver.erp_px_cat_g1v2(
+id,
+cat,
+subcat,
+maintenance)
+select *
+from bronze.erp_px_cat_g1v2;
+
